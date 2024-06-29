@@ -27,9 +27,9 @@ function toggleMenu() {
 }
 
 const currenthref = window.location.href;
-if (currenthref != "http://localhost:8000/") {
+if (currenthref != window.location.origin+"/") {
     document.querySelectorAll("header div nav a").forEach((e) => {
-        e.href = "http://localhost:8000" + e.getAttribute("href").replace("#", "/")
+        e.href = window.location.origin + e.getAttribute("href").replace("#", "/")
     });
 }
 function loaderpage() {
@@ -51,7 +51,7 @@ function loaderpage() {
     setInterval(() => {
         // 
         let height = 400
-        if (window.location.href == window.location.origin) {
+        if (window.location.href == window.location.origin+"/") {
             height = 20
         }
         let classess = "fixed w-screen bg-indigo-200"
