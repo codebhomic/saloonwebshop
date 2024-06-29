@@ -20,6 +20,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.conf.urls.static import static
 from booking import views
+# from saloonweb.settings import STATIC_ROOT,MEDIA_URL
 admin.site.site_header='Queens Beauty Studio'
 admin.site.site_title='Queens Beauty Studio Admin Dashboard'
 admin.site.index_title='Home Page'
@@ -32,6 +33,8 @@ urlpatterns = [
     path('users/',include('users.urls')),
     path('',include('booking.urls')),
 ]
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve media files during development
 if settings.DEBUG:

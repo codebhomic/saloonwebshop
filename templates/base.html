@@ -5,9 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> {% block title %} {% endblock title %} | Queens Beauty Studio</title>
-  
   {% load static %}
-  <link href="{% static 'tailwind.css' %}" rel="stylesheet">
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
   <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'ckeditor/ckeditor.css' %}">
   <style>
@@ -20,6 +19,7 @@
   </style>
   
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
@@ -43,16 +43,12 @@ const csrftoken = getCookie('csrftoken');
 </script>
 
 </head>
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 <body onload="loaderpage()">
-  <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v20.0" nonce="RAN9boJq"></script>
+
   <div class="h-screen w-screen flex justify-center items-center" id="loaderpage">
     <p class="animate-spin border-x-4 border-orange-700 border-solid rounded-full w-16 h-16"></p>
   </div>
-  
-  
   <!-- header section -->
   <header class="hidden text-gray-600 w-screen body-font fixed transition-all duration-300 z-50">
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
