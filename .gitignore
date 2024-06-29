@@ -5,3 +5,8 @@ __pycache__/
 
 # Node related
 node_modules/
+
+# Ignore local static files
+/static/
+!static/css/
+!static/js/
