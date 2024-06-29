@@ -46,6 +46,8 @@ const csrftoken = getCookie('csrftoken');
 <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 <body onload="loaderpage()">
+  <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v20.0" nonce="RAN9boJq"></script>
   <div class="h-screen w-screen flex justify-center items-center" id="loaderpage">
     <p class="animate-spin border-x-4 border-orange-700 border-solid rounded-full w-16 h-16"></p>
   </div>
