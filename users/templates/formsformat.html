@@ -1,0 +1,107 @@
+{% extends "profile.html" %}
+{% block userbody %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Edit Profile Section -->
+<h2 class="text-2xl font-bold text-gray-800 mb-4">{{ title }}</h2>
+<form class="space-y-4" method="post" action="{% url name %}">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="relative mb-4">
+        {{ field.label_tag }}
+        {% if field == form.rating %}
+        <div id="rating" class="flex items-center space-x-1 text-yellow-300 w-24">
+            <i class="fas fa-star  cursor-pointer" data-rating="1"></i>
+            <i class="fas fa-star  cursor-pointer" data-rating="2"></i>
+            <i class="fas fa-star  cursor-pointer" data-rating="3"></i>
+            <i class="fas fa-star  cursor-pointer" data-rating="4"></i>
+            <i class="fas fa-star  cursor-pointer" data-rating="5"></i>
+        </div>
+        {% endif %}
+        {{ field }}
+        {% if field.errors %}
+        <div id="error">
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if field.help_text %}
+        {{ field.help_text }}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <button id="sub" type="submit" class="hidden w-full px-4 py-2 bg-indigo-500 text-white font-semibold rounded hover:bg-indigo-600 transition duration-300">Save Changes</button>
+</form>
+<script>
+    const stars = document.querySelectorAll('#rating i');
+    const ratinginput = document.querySelector('#id_rating');
+    let selectedRating = 0;
+    if (ratinginput.getAttribute("value")){
+        updateRating(ratinginput.getAttribute("value"))
+    }
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = star.getAttribute('data-rating');
+            updateRating(selectedRating);
+            document.querySelector("#sub").classList.remove("hidden")
+        });
+    });
+
+    function updateRating(rating) {
+        stars.forEach(star => {
+            if (star.getAttribute('data-rating') <= rating) {
+                star.classList.add('text-yellow-700');
+            } else {
+                star.classList.remove('text-yellow-700');
+            }
+        });
+        rating = 0
+        document.querySelectorAll('#rating i').forEach(star => {
+            if (star.classList.contains("text-yellow-700")) {
+                rating = rating + 1;
+            }
+        }); 
+        ratinginput.setAttribute("value",rating);
+       
+    }
+    document.querySelector("main").classList.add("bg-gray-200")
+
+    document.querySelectorAll("input").forEach((e) => {
+        e.setAttribute("class", "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200 ease-in-out")
+        attr = e.getAttribute("name")
+        {% if user.username %}
+        if (attr == "author"){
+            e.setAttribute("value","{{ username }}")
+            e.classList.add("hidden")
+        }
+        if (attr == "email"){
+            e.setAttribute("value","{{ email }}")
+            e.classList.add("hidden")
+        }
+        {% endif %}
+        if (attr == "rating"){
+            e.classList.add("hidden")
+        }
+    });
+    document.querySelectorAll("label").forEach((e) => {
+        e.setAttribute("class", "leading-7 block text-sm md:text-lg font-medium text-gray-700")
+        attr = e.getAttribute("for")
+        {% if user.username %}
+        if ((attr == "id_author") || (attr == "id_email") || (attr == "id_rating")){
+            e.classList.add("hidden")
+        }{% endif %}
+        if (attr == "id_rating"){
+            e.classList.add("hidden")
+        }
+    });
+    document.querySelectorAll("#error").forEach((e) => {
+        e.setAttribute("class", " text-red-600 ")
+    });
+    document.querySelectorAll("div ul li").forEach((e) => {
+        e.setAttribute("class", "text-indigo-600")
+    });
+    document.querySelectorAll("textarea").forEach((e)=>{
+        e.setAttribute("class","w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out")
+    });
+</script>
+{% endblock userbody %}

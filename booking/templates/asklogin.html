@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        Swal.fire({
+            title: "You Need To have Account for Booking!!, Do You have It?", showDenyButton: true,
+            confirmButtonText: "Yes", denyButtonText: 'No',showLoaderOnConfirm: true,showLoaderOnDeny: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({title: "redirecting to login page.......",showConfirmButton: false});
+                setTimeout(()=>{
+                    window.location.href = "/users/signin"
+                },2000)
+            } else if (result.isDenied) {
+                Swal.fire({title: "redirecting to signup page.......!",showConfirmButton: false});
+                setTimeout(()=>{
+                    window.location.href = "/users/signup"
+                },2000)
+            }else{
+                window.location.href = "/users/signup"
+
+            }
+        });
+    </script>
+</body>
+
+</html>

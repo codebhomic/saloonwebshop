@@ -1,0 +1,6 @@
+# Django related
+*.pyc
+__pycache__/
+
+# Node related
+node_modules/

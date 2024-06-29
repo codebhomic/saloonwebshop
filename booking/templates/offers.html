@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} Page{% endblock title %}
+{% block body %}
+{% load static %}
+<!-- Offers Section -->
+<section class="py-12">
+    {% if offers %}
+        <div
+            class=" bg-indigo-200 px-4 w-full h-56 object-cover rounded-t-lg flex justify-center items-center flex-col text-gray-800">
+            <h2 class="text-3xl font-bold text-center">Special Festive Offers</h2>
+        </div>
+        <div class="container mx-auto py-4 max-w-screen-lg my-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for offer in offers %}
+                <!-- Offer -->
+                <div class="relative bg-white shadow-lg rounded-lg overflow-hidden">
+                    <span class="absolute top-0 right-0 bg-indigo-700 text-white p-1 font-bold">{{ offer.discount_percentage}}% OFF</span>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">{{ offer.title }}</h3>
+                        {% if offer.description == "..." %}
+                        {% else %}
+                        <p class="text-gray-600 mb-1">desc:{{ offer.description }}</p>{% endif %}
+                        <p class="text-gray-600 mb-1">Includes:{% for service in offer.services.all %}{{ service.title }},{% endfor %}</p>
+                        <p class="text-gray-600 mb-1">Valid from {{ offer.start_date }}</p>
+                        <p class="text-gray-600 mb-1" id="end_date">To {{ offer.end_date }}</p>
+                        <p class="text-red-500 text-2xl font-bold mb-2">$50 <span class="line-through text-gray-500">$100</span></p>
+                        <a href="/booking/" class="bg-indigo-400 text-white px-4 py-2 rounded hover:bg-indigo-700">Book Now</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div
+            class="bg-red-600 px-4 w-full h-96 object-cover rounded-t-lg flex justify-center items-center flex-col text-white">
+            <h2 class="text-3xl font-bold text-center">Offers Coming Soon</h2>
+        </div>
+    {% endif %}
+
+</section>
+{% endblock body %}

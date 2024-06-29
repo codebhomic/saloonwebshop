@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock title %}
+
+{% block body %}
+<!-- signup section start -->
+<section class="container mx-auto p-6 py-24">
+    <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-gray-900 text-md md:text-2xl lg:text-3xl mb-1 font-medium title-font">User Sign Up</h2>
+            <form id="signupForm" class="space-y-4" method="post" action="{% url 'signup' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="relative my-6">
+                    {{ field.label_tag }}{{ field }}
+                    {% if field.id_for_label == "id_email" %}
+                    <p class="leading-relaxed text-gray-600 text-sm mt-1" id="{{ field.id_for_label }}_error">example@example.com</p>
+                    {% else %}
+                    <p class="leading-relaxed text-gray-600 text-sm mt-1" id="{{ field.id_for_label }}_error">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    <button id="signupFormSubmit" type='submit' class="my-5 text-white bg-indigo-500 border-0 py-2 px-6 outline-none hover:bg-indigo-600 rounded text-lg">Signup</button>
+                    <p class="leading-relaxed mt-1">
+                        Already have an account? <a class="text-indigo-500 hover:text-blue-800 hover:underline" href="{% url 'signup' %}">Sign Up</a>
+                    </p>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    document.querySelector("main").classList.add("bg-gray-200")
+
+    document.querySelectorAll("input").forEach((e) => {
+        e.setAttribute("class", "w-full bg-white rounded border border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out")
+    })
+    document.querySelectorAll("label").forEach((e) => {
+        e.setAttribute("class", "leading-7 block text-sm md:text-lg font-medium text-gray-700")
+    })
+    document.querySelectorAll("ul li").forEach((e) => {
+        e.setAttribute("class", "leading-relaxed text-gray-600 text-sm")
+    })
+    document.querySelectorAll("#error ul li").forEach((e) => {
+        e.setAttribute("class", " text-red-600 ")
+    })
+
+    function applyClasses(elements, addClasses, removeClasses) {
+        elements.forEach(element => {
+            removeClasses.forEach(cls => element.classList.remove(cls));
+            addClasses.forEach(cls => element.classList.add(cls));
+        });
+    }
+
+    function validateInput(element, submit = false) {
+        let errorElem = document.querySelector("#" + element.id + "_error");
+        if (element.id === "id_password1") {
+            errorElem = document.querySelectorAll("ul li")
+        }
+        const successClasses = ["focus:border-indigo-500", "focus:ring-2", "focus:ring-indigo-400"];
+        const errorClasses = ["focus:border-red-500", "focus:ring-2", "ring-red-400"];
+        let valid = true;
+
+        if ((element.id === "id_username")) {
+            const usernamePattern = /^[a-zA-Z0-9._%+-@]{5,150}$/;
+            if (!usernamePattern.test(element.value)) {
+                applyClasses([element], errorClasses, successClasses);
+                applyClasses([errorElem], ["text-red-600"], ["text-gray-600"]);
+                valid = false;
+            }
+        } else if (element.id === "id_email") {
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(element.value)) {
+                applyClasses([element], errorClasses, successClasses);
+                applyClasses([errorElem], ["text-red-600"], ["text-gray-600"]);
+                valid = false;
+            }
+        } else if (element.id === "id_password1") {
+            const passwordPattern = /^[a-zA-Z0-9._%@#+-]{8,}$/;
+            if (!passwordPattern.test(element.value)) {
+                applyClasses([element], errorClasses, successClasses);
+                document.querySelectorAll("ul li").forEach((e) => {
+                    applyClasses([e], ["text-red-600"], ["text-gray-600"]);
+                })
+                valid = false;
+            } else {
+                document.querySelectorAll("ul li").forEach((e) => {
+                    applyClasses([e], ["text-gray-600"], ["text-red-600"]);
+                })
+            }
+        } else if (element.id === "id_password2") {
+            if (document.querySelector("#id_password1").value != element.value) {
+                applyClasses([element], errorClasses, successClasses);
+                applyClasses([errorElem], ["text-red-600"], ["text-gray-600"]);
+                valid = false;
+            }
+        }
+        if (!submit) {
+            if (valid) {
+                applyClasses([element], successClasses, errorClasses);
+                if (element.id != "id_password1") {
+                    applyClasses([errorElem], ["text-gray-600"], ["text-red-600"]);
+                }
+            }
+        }
+        return valid;
+    }
+
+    function handleFormSubmission(formId, submitUrl, csrfToken) {
+        const form = document.getElementById(formId);
+        const submitButton = document.getElementById(formId + "Submit");
+
+        form.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+            }
+        });
+
+        form.addEventListener('input', event => {
+            validateInput(event.target, false);
+        });
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            let formValid = true;
+            document.querySelectorAll(`#${formId} input`).forEach(input => {
+                if (!validateInput(input, true)) {
+                    formValid = false;
+                }
+            });
+            if (!formValid) {
+                Swal.fire({ title: 'Errors!', text: "Please enter the correct values", icon: "error", confirmButtonText: 'OK' });
+                return;
+            }
+            const formData = new FormData(form);
+            fetch(submitUrl, { method: 'POST', headers: { 'X-CSRFToken': csrfToken }, body: formData })
+                .then(response => response.json()).then(data => {
+                    if (data.errors === "") {
+                        Swal.fire({ title: 'Success!', text: data.message+" you will be redirected to profile page", icon: "success", confirmButtonText: 'OK' }).then((result) => {
+                            // if (result.isConfirmed) {
+                                window.location.href = '{% url "profile" %}'
+                            // }
+                        });
+                    } else {
+                        message = ""
+                        try {
+                            for (let inputName in data.errors) {
+                                data.errors[inputName].forEach(errorMsg => {
+                                    message = message + errorMsg + "\t"
+                                });
+                            }
+                            Swal.fire({ title: 'Errors!', text: message, icon: "error", confirmButtonText: 'OK' });
+                        } catch (error) {
+                            Swal.fire({ title: 'Errors!', text: data.errors + data.message, icon: "error", confirmButtonText: 'OK' });
+                        }
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Errror!',
+                        text: 'An error occurred: ' + error,
+                        icon: "error",
+                        confirmButtonText: 'OK'
+                    });
+                })
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        handleFormSubmission('signupForm', '{% url "signup" %}', '{{ csrf_token }}');
+    });
+</script>
+{% endblock body %}

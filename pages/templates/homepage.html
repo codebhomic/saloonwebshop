@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} Page{% endblock title %}
+{% block body %}
+{% load static %}
+
+{% if title == "homepage" %} 
+{% include "about.html" %}
+{% include "services.html" %}
+{% include "reviews.html" %}
+{% include "calltoaction.html" %}
+{% include "gallary.html" %}
+{% include "contact.html" %}
+{% endif %}
+
+{% if title == "about" %} 
+{% include "about.html" %}
+{% endif %}
+
+{% if title == "services" %} 
+{% include "services.html" %}
+{% endif %}
+
+{% if title == "reviews" %} 
+{% include "reviews.html" %}
+{% endif %}
+
+{% if title == "calltoaction" %} 
+{% include "calltoaction.html" %}
+{% endif %}
+
+{% if title == "gallary" %} 
+{% include "gallary.html" %}
+{% endif %}
+
+{% if title == "contact" %} 
+{% include "contact.html" %}
+{% endif %} 
+<script>
+      
+  function hrefgen(page){
+    window.location.href = window.location.origin+"/"+page;
+  }
+    </script>
+{% endblock body %}

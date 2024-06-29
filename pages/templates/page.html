@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} Page{% endblock title %}
+{% block body %}
+{% load static %}
+<article class="py-12 bg-white shadow-lg rounded-lg">
+    <header {% if content.image %} style="background-image: url('/media/{{ content.image }}');" {% endif %}
+    class="{% if content.image %}{% else %}bg-indigo-200 {% endif %}px-4 w-full h-64 object-cover rounded-t-lg flex justify-center items-center flex-col text-gray-800" >
+        <!-- <img src='/media/{{ content.image }}' alt="Article Heading Image" class="w-full h-64 object-cover rounded-t-lg"> -->
+        <h2 class="text-3xl font-bold mb-4">{{ content.title }}</h2>
+        <p class="">Published on <time datetime="{{ content.created_at }}">{{ content.created_at }}</time> </p>
+    </header>
+    <section class="mt-6 container mx-auto px-12 ">
+        {{ content.description | safe }}    
+    </section>
+    
+</article>
+{% endblock body %}

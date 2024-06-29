@@ -1,0 +1,108 @@
+{% extends "profile.html" %}
+{% block userbody %}
+{% load static %}
+<script>
+    function applyClasses(elements, classes) {
+        console.log("applyclasss funciton",elements)
+        elements.forEach(element => {
+            classes.forEach(cls => element.classList.toggle(cls));
+        });
+    }
+
+    async function toggleBooking(bookingId) {
+        try {
+            const statusElement = document.getElementById(`status-${bookingId}`);
+            const button = document.getElementById(`button-${bookingId}`);
+            const currentStatus = statusElement.textContent.includes('pending') ? 'pending' : 'canceled';
+            const newStatus = currentStatus === 'pending' ? 'canceled' : 'pending';
+
+            const response = await fetch(`/toggle_booking/${bookingId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            if (response.ok) {
+                button.textContent = 'waiting......';
+                button.disabled = true;
+                setTimeout(() => {
+                    button.disabled = false;
+                    statusElement.textContent = `Status: ${newStatus}`;
+                    applyClasses([statusElement],["bg-yellow-600","bg-red-500"])
+                    if (newStatus === 'canceled') {
+                        button.textContent = 'Undo Cancel';
+                        applyClasses([button],["bg-red-500","hover:bg-red-600","bg-indigo-500","hover:bg-indigo-700"])
+                        
+                    }else{
+                        button.textContent = 'Cancel Booking';
+                        applyClasses([button],["bg-indigo-500","hover:bg-indigo-700","bg-red-500","hover:bg-red-600"])
+                    }
+                }, 1000); // 3 seconds time limit
+            } else {
+                alert('Failed to update booking.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+</script>
+        <h1 class="text-3xl font-medium title-font text-gray-900 mb-12 text-center">My Bookings</h1>
+        <div class="flex flex-wrap -m-4">
+            {% if bookings %}
+            {% for booking in bookings %}
+            <div class="p-4 md:w-1/3 w-full">
+                <div class="h-full bg-gray-300 p-8 shadow-sm hover:shadow-lg hover:scale-105 rounded transform-all duration-300">
+                    <p class="text-gray-600 text-sm mb-2">Services: {% for service in booking.services.all %}{{ service.title }},{% endfor %}</p>
+                    <p class="text-gray-600 text-sm mb-2">Date: {{ booking.appointment_date }}</p>
+                    <p class="text-gray-600 text-sm mb-2">Time: {{ booking.start_time }}</p>
+                    {% if booking.notes %}<p class="text-gray-600 text-sm mb-2">Notes: {{ booking.notes }}</p>{% endif %}
+
+                    <p class='text-white px-1 py-2 rounded-md text-sm mb-2 capitalize
+                    {% if booking.status == "pending" %}bg-yellow-600 {% endif %}
+                    {% if booking.status == "canceled" %}bg-red-500 {% endif %}
+                    {% if booking.status == "reject" %}bg-red-600 {% endif %}
+                    {% if booking.status == "completed" %}bg-green-700 {% endif %}
+                    {% if booking.status == "confirmed" %}bg-green-400 {% endif %}
+                    'id="status-{{ booking.id }}">
+                        Status: {{ booking.status }}</p>
+                        {% if booking.status == "pending" or booking.status == "confirmed" %}<button id="button-{{ booking.id }}" class="bg-red-500 text-white font-semibold px-4 py-2 rounded hover:bg-red-600 transition duration-300" onclick="toggleBooking({{ booking.id }})">Cancel Booking</button>{% endif %} 
+                        {% if booking.status == "canceled" %}<button id="button-{{ booking.id }}" class="bg-indigo-500 text-white font-semibold px-4 py-2 rounded hover:bg-indigo-700 transition duration-300" onclick="toggleBooking({{ booking.id }})">Undo Cancel</button>{% endif %} 
+                    </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="p-4 w-full">
+                <div class="bg-red-500 text-white p-8 text-center text-xl md:text-4xl">
+                    No Bookings Found
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% if bookings %}
+        <div class="flex md:justify-center md:items-center mx-auto mt-10">
+            {% if bookings.has_previous %}
+            <div class="flex">
+                <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+                    href="?page=1">&laquo; <span class="hidden sm:inline-flex">First</span></a>
+                <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+                    href="?page={{ bookings.previous_page_number }}">prev</a>
+            </div>
+            {% endif %}
+            <div class="current">
+                Page {{ bookings.number }} of {{ bookings.paginator.num_pages }}.
+            </div>
+            {% if bookings.has_next %}
+            <div class="flex">
+                <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+                    href="?page={{ bookings.next_page_number }}">next</a>
+                <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+                    href="?page={{ bookings.paginator.num_pages }}">&raquo; <span
+                        class="hidden sm:inline-flex">Last</span></a>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+{% endblock userbody %}

@@ -1,0 +1,35 @@
+<nav class="navbar">
+    <div class="navbar-brand">Queens Beauty Studio</div>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <ul class="navbar-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/contact">contact</a></li>
+        <li><a href="/gallery">gallery</a></li>
+        <li class="dropdown">
+            {% if user.username %}
+                <a class="dropbtn">{{ user.username }}</a>
+                <div class="dropdown-content">
+                    {% if user.is_superuser or user.is_staff %}
+                    <a href="/admin">Dashboard</a>
+                    <a href="/admin/password_change/">Password Change</a>
+                    {% else %}
+                        <a href="/users/profile">Profile</a>
+                        <a href="{% url "ChangeDetails" %}">Change Details</a>
+                        <a href="{% url "ChangePassword" %}">Change Password</a>
+                        <a href="/users/signout">SignOut</a>
+                        
+                    {% endif %}
+                </div>
+            {% else %}
+                <a class="dropbtn">SignIn/SignUp</a>
+                <div class="dropdown-content">
+                    <a href="/users/signin">SignIn</a>
+                    <a href="/users/signup" id="logout">SignUp</a>
+                </div>
+            {% endif %}
+        </li>
+
+    </ul>
+</nav>

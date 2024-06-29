@@ -1,0 +1,54 @@
+<!-- reviews Section -->
+<section class="text-gray-600 body-font bg-indigo-100" id="reviews">
+    <div class="container px-5 py-20 md:py-34 mx-auto">
+      <h1 data-aos="fade-up" data-aos-duration="1000" class="text-3xl font-medium title-font text-gray-900 mb-12 text-center">Reviews</h1>
+      <div class="flex flex-wrap -m-4">
+
+        {% for review in reviews %}
+        <div class="p-4 md:w-1/3 w-full">
+          <div data-aos="fade-up" data-aos-duration="2000" class="h-full bg-gray-100 p-8 shadow-sm hover:shadow-lg hover:shadow-slate-400 rounded transform-all duration-700 hover:scale-105">
+            {% comment %} block w-5 h-5 text-gray-400 mb-4 {% endcomment %}
+            <p class="leading-relaxed mb-6">
+              {{ review.comment }}</p>
+            <a class="inline-flex items-center">
+              <img alt="testimonial" src="https://dummyimage.com/106x106" class="w-12 h-12 rounded-full flex-shrink-0 object-cover object-center">
+              <span class="flex-grow flex flex-col pl-4">
+                <span class="title-font font-medium text-gray-900">{{ review.author }}</span>
+                <span class="text-gray-500 text-sm">customer</span>
+              </span>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+      {% if title == "homepage" %}
+    <div class="flex flex-col md:flex-row md:justify-center md:items-center mx-auto mt-10">
+      <a data-aos="flip-left" data-aos-duration="2000" class="bg-indigo-500 text-white px-10 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+        onclick="hrefgen('reviews')">Reviews</a>
+    </div>
+    {% else %}
+    <div class="flex md:justify-center md:items-center mx-auto mt-10">
+      {% if reviews.has_previous %}
+      <div class="flex">
+        <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+          href="?page=1">&laquo; <span class="hidden sm:inline-flex">First</span></a>
+        <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+          href="?page={{ reviews.previous_page_number }}">prev</a>
+      </div>
+      {% endif %}
+      <div class="current">
+        Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+      </div>
+      {% if reviews.has_next %}
+      <div class="flex">
+        <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+          href="?page={{ reviews.next_page_number }}">next</a>
+        <a class="bg-indigo-500 m-1 text-white px-3 py-2 text-sm hover:bg-indigo-700 lg:text-xl rounded"
+          href="?page={{ reviews.paginator.num_pages }}">&raquo; <span class="hidden sm:inline-flex">Last</span></a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+<!-- end reviews Section -->

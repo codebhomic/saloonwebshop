@@ -1,0 +1,54 @@
+{% extends "profile.html" %}
+{% block userbody %}
+<div class="flex items-center space-x-4 mb-6">
+    {% comment %} <div class="w-20 h-20">
+        <img class="w-full h-full rounded-full border-2 border-gray-300" src="https://via.placeholder.com/150x150" alt="Profile Picture">
+    </div> {% endcomment %}
+    <div>
+        <h1 class="text-2xl font-semibold text-gray-900">
+            {% if user.first_name %}
+            <span id="fullname">
+                {{ user.first_name }} {{ user.last_name }}
+            </span>
+            <a href="{% url 'ChangeDetails' %}" id="addname" class="text-sm text-indigo-400 cursor-pointer">
+                Edit Name
+            </a>
+            {% else %}
+            No Name 
+            <a href="{% url 'ChangeDetails' %}" id="addname" class="text-sm text-indigo-400 cursor-pointer">
+                Add Name
+            </a> {% endif %}</h1>
+        <p class="text-gray-600">{{ user.email }}</p>
+    </div>
+</div>
+<div class="space-y-6">
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold text-gray-800">Contact Information</h3>
+        <div class="mt-2">
+            <p class="text-gray-600"><span class="font-semibold">Email:</span> {{ user.email }}</p>
+            <p class="text-gray-600"><span class="font-semibold">Phone:</span> Not Upadated</p>
+        </div>
+    </div>
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold text-gray-800">Recent Activity</h3>
+        <div class="mt-2">
+            <ul class="list-disc list-inside text-gray-600">
+                <li>Joined at: <span class="text-blue-500 hover:underline">{{ user.date_joined }}</span></li>
+                <li>Last Logged In: <span class="text-blue-500 hover:underline">{{ user.last_login }}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll("input").forEach((e) => {
+        e.setAttribute("class", "w-full mx-3 bg-white rounded border border-gray-300 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out")
+    })
+    document.querySelectorAll("label").forEach((e) => {
+        e.setAttribute("class", "")
+    })
+    
+
+
+</script>
+{% endblock userbody %}

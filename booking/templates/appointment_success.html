@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} Page{% endblock title %}
+{% block body %}
+{% load static %}
+    <h1>Your appointment has been successfully booked!</h1>
+    <a href="{% url 'booking' %}">Book another appointment</a>
+    
+    {% endblock body %}
