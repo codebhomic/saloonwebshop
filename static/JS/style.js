@@ -51,7 +51,7 @@ function loaderpage() {
     setInterval(() => {
         // 
         let height = 400
-        if (window.location.href == "http://localhost:8000/") {
+        if (window.location.href == window.location.origin) {
             height = 20
         }
         let classess = "fixed w-screen bg-indigo-200"
