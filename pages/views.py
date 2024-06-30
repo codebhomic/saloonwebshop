@@ -79,7 +79,7 @@ def gallery(request):
 def service_view(request,service_slug=''):
     content = Content.objects.filter(category__name='Services',slug=service_slug).first()
     if not content:
-        return HttpResponse("404")
+        return render(request=request,template_name="404.html")
     context = {
         "title":content.title,
         "content":content,
@@ -89,7 +89,7 @@ def service_view(request,service_slug=''):
 def pages_view(request,page_slug):
     content = Content.objects.filter(category__name='pages',slug=page_slug).first()
     if not content:
-        return HttpResponse("404")
+        return render(request=request,template_name="404.html")
     context = {
         "title":content.title,
         "content":content,
@@ -99,7 +99,7 @@ def pages_view(request,page_slug):
 def json_pages_view(request,category,page_slug):
     content = Content.objects.filter(category__name=category,slug=page_slug).first()
     if not content:
-        return HttpResponse("404")
+        return render(request=request,template_name="404.html")
     context = {
         "title":content.title,
         "content":content.description,
