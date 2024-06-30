@@ -1,4 +1,4 @@
-
+{% load static %}
 <!-- Gallery Section -->
 <section class="text-gray-600 body-font bg-indigo-100" id='gallery'>
     <div class="container px-5 py-20 md:py-34 mx-auto flex flex-wrap">
@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {% for photo in gallery %}
               <div data-aos="fade-up" data-aos-duration="1000" class="relative group">
-                <img onclick="imageshow('{{ photo.id }}')" id="image-{{ photo.id }}" class="w-full h-80 md:h-full object-cover rounded-lg shadow-lg transform group-hover:scale-105 transition-transform duration-300" src="/media/{{ photo.image }}" alt="{{ photo.title }}">
+                <img onclick="imageshow('{{ photo.id }}')" id="image-{{ photo.id }}" class="w-full h-80 md:h-full object-cover rounded-lg shadow-lg transform group-hover:scale-105 transition-transform duration-300" src="{% static photo.image %}" alt="{{ photo.title }}">
                 {% comment %} <div class="absolute inset-0 bg-orange-500 bg-opacity-0 group-hover:bg-opacity-50 flex flex-col items-center justify-center text-white text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ photo.title }} {{ photo.description | safe }}</div> {% endcomment %}
               </div>
           {% endfor %}

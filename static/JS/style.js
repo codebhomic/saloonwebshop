@@ -32,7 +32,8 @@ if (currenthref != window.location.origin+"/") {
         e.href = window.location.origin + e.getAttribute("href").replace("#", "/")
     });
 }
-function loaderpage() {
+
+document.addEventListener("DOMContentLoaded",(e)=>{
     document.querySelector('#loaderpage').classList.add("hidden")
     document.querySelector('header').classList.remove("hidden")
     document.querySelector('main').classList.remove("hidden")
@@ -115,4 +116,4 @@ function loaderpage() {
         });
     });
 
-};
+});
