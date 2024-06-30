@@ -113,15 +113,15 @@ def reviews(request):
 
     if request.method == 'POST':
         form = ReviewForm(data=request.POST)
-        if reviews:
-            form = ReviewForm(request.POST, instance=reviews)
+        if request.user.is_authenticated:
+            if reviews:
+                form = ReviewForm(request.POST, instance=reviews)
         if form.is_valid():
             form.save()
             success=f"Your Review has Been Submitted"
             messages.success(request, success)
             return redirect('/users/profile')
-    
-    context["reviews"]=reviews
+
     context["form"]=form
     if request.user.is_authenticated:
         context["username"]=request.user.username

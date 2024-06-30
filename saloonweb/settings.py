@@ -35,6 +35,8 @@ SECRET_KEY = 'django-insecure-lsnal5g08l#m5jeqp7!(&zr0u@8aa-!i-jl9o9ak@zff!02ei!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+# DEBUG = True
+
 
 ALLOWED_HOSTS = ['bhoumic-app-3c37b115b439.herokuapp.com', 'localhost', '127.0.0.1']
 
