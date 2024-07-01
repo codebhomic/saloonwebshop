@@ -25,9 +25,6 @@ urlpatterns = [
     path('reviews/', views.reviews, name="reviews" ),
     path('services/', views.services, name="services" ),
     path('gallery/', views.gallery, name="gallery" ),
-    
-    
-    
     path('services/<service_slug>/', views.service_view, name="services" ),
     path('page/<page_slug>/', views.pages_view, name="pages" ),
     path('page-json/<category>/<page_slug>/', views.json_pages_view, name="jsonpages" ),

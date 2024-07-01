@@ -1,10 +1,11 @@
 from django.shortcuts import *
-from .forms import ContactForm
-from .functions import paginate
+from pages.forms import ContactForm
+from pages.functions import paginate
 from pages.models import ContactModel,Content,Category,Tag
 from users.models import Reviews
 from django.contrib import messages
 from django.http import JsonResponse
+from django.core.files import storage
 # Create your views here.
 
 def index(request):
@@ -110,4 +111,3 @@ def json_pages_view(request,category,page_slug):
         "updated_at": content.updated_at, 
     }
     return JsonResponse(context)
-
