@@ -10,3 +10,4 @@ node_modules/
 /static/
 !static/css/
 !static/js/
+db.sqlite3
