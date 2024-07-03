@@ -34,8 +34,23 @@ STATICFILES_DIRS = [
 SECRET_KEY = 'django-insecure-lsnal5g08l#m5jeqp7!(&zr0u@8aa-!i-jl9o9ak@zff!02ei!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
+
+
+# Email backend to use for sending emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# password KhushiKaku1234
+# SMTP server settings
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server
+EMAIL_PORT = 587  # For TLS, use 465 for SSL
+EMAIL_USE_TLS = True  # Use TLS
+EMAIL_USE_SSL = False  # Use SSL (False if using TLS)
+EMAIL_HOST_USER = 'businessbhoumic@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'mvxn lnap accr bhld'  # Your email password
+
+# Default email address to use for various automated correspondence from the site manager(s)
+DEFAULT_FROM_EMAIL = 'businessbhoumic@gmail.com'
 
 
 ALLOWED_HOSTS = ['bhoumic-app-3c37b115b439.herokuapp.com', 'localhost', '127.0.0.1']
