@@ -113,6 +113,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'saloonweb.wsgi.application'
 
 
+# Email backend to use for sending emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# password KhushiKaku1234
+# SMTP server settings
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server
+EMAIL_PORT = 587  # For TLS, use 465 for SSL
+EMAIL_USE_TLS = True  # Use TLS
+EMAIL_USE_SSL = False  # Use SSL (False if using TLS)
+EMAIL_HOST_USER = 'businessbhoumic@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'mvxn lnap accr bhld'  # Your email password
+
+# Default email address to use for various automated correspondence from the site manager(s)
+DEFAULT_FROM_EMAIL = 'businessbhoumic@gmail.com'
+
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
