@@ -123,6 +123,20 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'saloonwebdb',  # Name of the PostgreSQL database
+#         'USER': 'postgres',  # PostgreSQL username
+#         'PASSWORD': '##KhushiKaku1234',  # PostgreSQL password
+#         'HOST': 'localhost',  # Set to empty string for localhost
+#         'PORT': '5432',  # Set to empty string for default
+#     },
+#     'old': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
