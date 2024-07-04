@@ -33,7 +33,7 @@ urlpatterns = [
     path('',include('pages.urls')),
     path('users/',include('users.urls')),
     path('',include('booking.urls')),
-    path("accounts/",include(urls))
+    path("users/",include(urls))
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
