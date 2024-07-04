@@ -1,8 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-# class UserEdit(User):
-#     phone = models.PhoneNumberField(_(""))
 
 # Create your models here.
 class Reviews(models.Model):

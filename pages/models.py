@@ -36,7 +36,7 @@ class Content(models.Model):
 class ContactModel(models.Model):
     name = models.CharField(max_length=100,null=False)
     email = models.EmailField(null=False)
-    phone = models.IntegerField(null=False)
+    phone = models.CharField(max_length=12,null=False)
     services = models.CharField(max_length=100,null=False)
     message = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
