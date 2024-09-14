@@ -15,11 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import urls
 from django.urls import path,include
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.conf.urls.static import static
-from booking import views
+
 # from saloonweb.settings import STATIC_ROOT,MEDIA_URL
 admin.site.site_header='Queens Beauty Studio'
 admin.site.site_title='Queens Beauty Studio Admin Dashboard'
@@ -32,6 +33,7 @@ urlpatterns = [
     path('',include('pages.urls')),
     path('users/',include('users.urls')),
     path('',include('booking.urls')),
+    path("users/",include(urls))
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
